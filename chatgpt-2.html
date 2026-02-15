@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weblier — Premium Websites for Local Businesses</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* ========================= DESIGN TOKENS (LIGHT) ========================== */
+        :root {
+            --bg-base: #f4f7fc;
+            --bg-soft: #eef3fa;
+            --bg-elevated: #ffffff;
+            --glass-bg: rgba(255, 255, 255, 0.65);
+            --glass-border: rgba(34, 105, 196, 0.18);
+            --text-primary: #000;
+            --text-secondary: #4a5a75;
+            --text-muted: #162c3c;
+            --accent: #2269c4;
+            --accent-2: #3a86e8;
+            --accent-soft: rgba(34, 105, 196, 0.25);
+            --radius-sm: 12px;
+            --radius-md: 18px;
+            --radius-lg: 28px;
+            --ease: cubic-bezier(0.22, 1, 0.36, 1);
+            --transition-fast: 0.25s var(--ease);
+            --transition-base: 0.45s var(--ease);
+            --max-width: 1200px;
+        }
+
+        /* ========================= RESET & BASE ========================== */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background: radial-gradient(900px 500px at 10% -10%, #dbe8ff, transparent), radial-gradient(800px 500px at 90% 10%, #e3f0ff, transparent), var(--bg-base);
+            color: var(--text-primary);
+            line-height: 1.65;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4 {
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+            margin: 0;
+        }
+
+        h1 {
+            font-size: clamp(2.2rem, 4vw, 3.3rem);
+        }
+
+        h2 {
+            font-size: clamp(1.8rem, 3vw, 2.4rem);
+        }
+
+        h3 {
+            font-size: 1.2rem;
+        }
+
+        h4 {
+            font-size: 1rem;
+        }
+
+        p {
+            margin: 0;
+            color: var(--text-secondary);
+            font-size: 0.98rem;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button {
+            font-family: inherit;
+            cursor: pointer;
+            border: none;
+            background: none;
+            color: inherit;
+        }
+
+        /* ========================= LAYOUT ========================== */
+        .container {
+            max-width: var(--max-width);
+            margin-inline: auto;
+            padding-inline: 20px;
+        }
+
+        .section {
+            padding: clamp(70px, 10vw, 110px) 0;
+        }
+
+        .section-header {
+            max-width: 640px;
+            margin-bottom: 56px;
+        }
+
+        .section-header p {
+            margin-top: 12px;
+        }
+
+        /* ========================= GLASS (LIGHT) ========================== */
+        .glass {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.55));
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-md);
+            box-shadow: 0 20px 40px rgba(16, 42, 87, 0.08);
+        }
+
+        /* ========================= BUTTONS (BLUE) ========================== */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 22px;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: transform var(--transition-base), box-shadow var(--transition-base), background var(--transition-base);
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            color: #ffffff;
+            box-shadow: 0 14px 36px var(--accent-soft);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 50px var(--accent-soft);
+        }
+
+        .btn-success {
+            background: #2cd46b;
+            color: #ffffff;
+        }
+        .btn-danger {
+            background: #d42c2c;
+            color: #ffffff;
+        }
+
+        .btn-secondary {
+            background: rgba(34, 105, 196, 0.08);
+            border: 1px solid rgba(34, 105, 196, 0.25);
+            color: var(--accent);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(34, 105, 196, 0.14);
+        }
+
+        /* ========================= HEADER ========================== */
+        header {
+            position: fixed;
+            inset: 0 0 auto 0;
+            height: 74px;
+            z-index: 100;
+            transition: background var(--transition-fast), box-shadow var(--transition-fast);
+        }
+
+        header.scrolled {
+            background: #ffffffa6;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 12px 30px rgba(16, 42, 87, 0.12);
+        }
+
+        .nav {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            width: 120px;
+            height: 36px;
+            border-radius: 8px;
+        }
+
+        img.logo-img {
+            margin-top: -10px;
+        }
+        img.footer-logo-img {
+            margin-top: -15px;
+        }
+
+        #header-logo-d {
+            display: none;
+        }
+        #header-logo-l {
+            display: block;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--text-muted);
+            transition: color var(--transition-fast);
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        .nav-right {
+            display: flex;
+            gap: 11px;
+            justify-content: center;
+        }
+
+        /* =========================
+        THEME TOGGLE BUTTON
+        ========================== */
+        .theme-toggle {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            margin-top: 5px;
+            background: rgba(34, 105, 196, 0.1);
+            border: 1px solid rgba(34, 105, 196, 0.25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent);
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            background: rgba(34, 105, 196, 0.2);
+            transform: rotate(12deg);
+        }
+
+        body[data-theme="dark"] .theme-toggle {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.25);
+            color: #ffffff;
+        }
+
+        /* ========================= HERO ========================== */
+        .hero {
+            padding-top: 140px;
+            padding-bottom: 120px;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 56px;
+            align-items: center;
+        }
+
+        .hero p {
+            margin-top: 20px;
+            max-width: 560px;
+            font-size: 1.05rem;
+        }
+
+        .hero-actions {
+            margin-top: 34px;
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .hero-visual {
+            height: 400px;
+            border-radius: var(--radius-lg);
+        }
+
+        /* ========================= GRIDS & CARDS ========================== */
+        .grid {
+            display: grid;
+            gap: 26px;
+        }
+
+        .grid-3 {
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        }
+
+        .grid-2 {
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        }
+
+        .card {
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 260px;
+            transition: transform var(--transition-base), box-shadow var(--transition-base);
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 28px 60px rgba(16, 42, 87, 0.16);
+        }
+
+        .card p {
+            margin-top: 10px;
+        }
+
+        .card .btn {
+            margin-top: 22px;
+            align-self: flex-start;
+        }
+
+        /* ========================= CONTACT ========================== */
+        .contact {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 36px;
+            padding: 40px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 14px 16px;
+            border-radius: var(--radius-sm);
+            border: 1px solid rgba(34, 105, 196, 0.25);
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 0.95rem;
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        /* ========================= FOOTER (ENHANCED) ========================== */
+        footer {
+            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            border-top: 1px solid rgba(34, 105, 196, 0.18);
+            padding: 80px 0 40px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .fa-whatsapp.cstmWPfa:before {
+            content: "\f232";
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        .fa-whatsapp.drwp-icon:before {
+            content: "\f232";
+            color: #2cd46b;
+            font-size: 33px;
+        }
+
+        .footer-brand p {
+            margin-top: 14px;
+            max-width: 360px;
+            color: #fff;
+        }
+
+        .footer-links h4 {
+            margin-bottom: 14px;
+            color: #fff;
+        }
+
+        .footer-links a {
+            display: block;
+            font-size: 0.9rem;
+            color: #fff;
+            margin-bottom: 10px;
+            transition: color var(--transition-fast);
+        }
+
+        .footer-links a:hover {
+            color: #000;
+            font-weight: 600;
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            color: #fff;
+            border-top: 1px solid rgb(255 255 255 / 15%);
+            padding-top: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        span.social-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        a.social-link {
+            background: #fff;
+            padding: 5px;
+            width: 32px;
+            text-align: center;
+            border-radius: 55px;
+            color: #246cc7;
+        }
+
+        a.social-link:hover {
+            background: #ffffff52;
+            color: #fff;
+        }
+
+        /* ========================= FLOATING CTA ========================== */
+        .floating-cta {
+            position: fixed;
+            right: 18px;
+            bottom: 18px;
+            z-index: 200;
+        }
+
+        .floating-cta a {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 14px 36px var(--accent-soft);
+            animation: pulse 2.4s infinite;
+        }
+
+        p.itallic-txt {
+            font-style: italic;
+            text-align: center;
+            font-weight: 300;
+            color: var(--text-secondary);
+        }
+
+        .confirm-buttons, .service-ctn-btns {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        div#modal-body {
+            margin-top: 20px;
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+
+        .service-list {
+            list-style: none;
+            padding: 0;
+            margin: 18px 0;
+        }
+
+        .service-list li {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            margin-bottom: 12px;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+
+        .service-list i {
+            color: #2269c4;
+            margin-top: 3px;
+            font-size: 1rem;
+        }
+
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 var(--accent-soft);
+            }
+
+            70% {
+                box-shadow: 0 0 0 16px #2cd46b;
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 #2cd46b;
+            }
+        }
+
+        /* ========================= MODAL ========================== */
+        .modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(14, 26, 43, 0.55);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 300;
+            padding: 20px;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            max-width: 720px;
+            width: 100%;
+            padding: 40px;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 16px;
+            right: 18px;
+            font-size: 1.2rem;
+            opacity: 0.7;
+        }
+
+        .modal-content-hidden {
+            display: none;
+        }
+
+        /* ========================= RESPONSIVE ========================== */
+        @media (max-width: 900px) {
+            .hero-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-links {
+                display: none;
+            }
+        }
+
+        /* =========================
+        DARK THEME OVERRIDES
+        ========================== */
+        body[data-theme="dark"] {
+            --bg-base: #0b0e14;
+            --bg-soft: #111522;
+            --bg-elevated: #0f1320;
+
+            --glass-bg: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.18);
+
+            --text-primary: #ffffff;
+            --text-secondary: #c6cbe6;
+            --text-muted: #9aa0c2;
+
+            --accent-soft: rgba(34, 105, 196, 0.35);
+        }
+        body[data-theme="dark"] header.scrolled {
+            background: linear-gradient(135deg, rgb(255 255 255 / 10%), rgb(255 255 255 / 25%));
+        }
+        body[data-theme="dark"] .nav-links a {
+            color: #c6cbe6;
+        }
+        body[data-theme="dark"] .glass {
+            background: linear-gradient(135deg, rgb(255 255 255 / 10%), rgb(255 255 255 / 25%));
+        }
+        body[data-theme="dark"] footer {
+            background: linear-gradient(135deg, rgb(255 255 255 / 10%), rgb(255 255 255 / 25%));
+        }
+
+        body[data-theme="dark"] #header-logo-d {
+            display: block;
+        }
+        body[data-theme="dark"] #header-logo-l {
+            display: none;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header id="header">
+        <div class="container nav">
+            <div class="logo">
+                <a href="#">
+                    <img src="logo-black.png" class="logo-img" id="header-logo-l" alt="Weblier" width="120">
+                    <img src="logo-white.png" class="logo-img" id="header-logo-d" alt="Weblier" width="120">
+                </a>
+            </div>
+
+            <nav class="nav-links">
+                <a href="#services">Services</a>
+                <a href="#demos">Demos</a>
+                <a href="#projects">Projects</a>
+                <a href="#contact">Contact</a>
+            </nav>
+
+            
+            <div class="nav-right">
+                <a href="#contact" class="btn btn-primary">Get Free Demo</a>
+
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+            </div>
+
+        </div>
+    </header>
+
+
+    <!-- HERO -->
+    <section class="hero section">
+        <div class="container hero-grid">
+            <div>
+                <h1>Premium Websites That Build Trust & Drive Growth</h1>
+                <p>Weblier helps Indian businesses establish a strong online presence through clean design,
+                    clear messaging,
+                    and professional execution. </p>
+                <div class="hero-actions"><a href="#contact" class="btn btn-primary">Request Free Demo</a><a
+                        href="#services" class="btn btn-secondary">View Services</a></div>
+            </div>
+            <div class="hero-visual glass">
+                <!-- <img src="banner-img-2.png" alt="Weblier" class="banner-img" width="530" height="400"> -->
+            </div>
+        </div>
+    </section>
+
+
+    <!-- SERVICES -->
+    <section id="services" class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Complete Business Website Package</h2>
+                <p>One professionally built website,
+                    supported with only what your business actually needs. </p>
+            </div>
+            <div class="grid grid-3">
+                <div class="card glass">
+                    <h3>Business Website</h3>
+                    <p>Fast, mobile-first, trust-focused website.</p>
+                    <button class="btn btn-secondary" onclick="openModal(this)" data-heading="Business Website" data-contentid="websiteModal">View Details</button>
+                    
+                    <div class="modal-content-hidden">
+                        <div id="websiteModal">
+                            <p class="service-desc">A professionally designed static website that presents your business clearly, builds customer trust, and works smoothly on all devices.
+                                Ideal for businesses that need a strong online presence without unnecessary complexity.</p>
+                            <ul class="service-list">
+                                <li><i class="fa-solid fa-circle-check"></i> Clean, professional business layout</li>
+                                <li><i class="fa-solid fa-circle-check"></i> Mobile-first responsive design</li>
+                                <li><i class="fa-solid fa-circle-check"></i> Fast loading & optimized performance</li>
+                                <li><i class="fa-solid fa-circle-check"></i> Clear services & call-to-action sections</li>
+                                <li><i class="fa-solid fa-circle-check"></i> SEO-ready page structure</li>
+                                <li><i class="fa-solid fa-circle-check"></i> Secure, lightweight & stable build</li>
+                            </ul>
+    
+                            <p class="itallic-txt">
+                                Initial website delivery within 5–7 working days after content approval.
+                            </p>
+
+                            <div class="service-ctn-btns">
+                                <a href="#" target="_blank" class="btn btn-primary ctn-btn">
+                                    <i class="fa-solid fa-phone"></i>
+                                </a>
+                                <a href="#" target="_blank" class="btn btn-success ctn-btn">
+                                    <i class="fa-brands fa-whatsapp cstmWPfa"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card glass">
+                    <h3>Branding Essentials</h3>
+                    <p>Logo,
+                        visiting card & letterhead if required.</p><button class="btn btn-secondary"
+                        onclick="openModal()">View Details</button>
+                </div>
+                <div class="card glass">
+                    <h3>Google Business Setup</h3>
+                    <p>Maps presence and local visibility optimisation.</p><button class="btn btn-secondary"
+                        onclick="openModal()">View Details</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- DEMOS -->
+    <section id="demos" class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Website Demos</h2>
+                <p>Sample layouts based on real business categories.</p>
+            </div>
+            <div class="grid grid-3">
+                <div class="card glass">
+                    <h3>Clinic Website</h3><button class="btn btn-secondary">View Demo</button>
+                </div>
+                <div class="card glass">
+                    <h3>Restaurant Website</h3><button class="btn btn-secondary">View Demo</button>
+                </div>
+                <div class="card glass">
+                    <h3>Coaching Center</h3><button class="btn btn-secondary">View Demo</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- PROJECTS -->
+    <section id="projects" class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Recent Projects</h2>
+                <p>Professionally executed websites for real businesses.</p>
+            </div>
+            <div class="grid grid-2">
+                <div class="card glass">
+                    <h3>Medical Clinic</h3>
+                    <p>Patient-focused layout designed for trust.</p><button class="btn btn-secondary"
+                        onclick="openModal()">View Project</button>
+                </div>
+                <div class="card glass">
+                    <h3>Retail Store</h3>
+                    <p>Local business website with conversion focus.</p><button class="btn btn-secondary"
+                        onclick="openModal()">View Project</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ABOUT -->
+    <section class="section">
+        <div class="container" style="max-width:720px">
+            <h2>About Weblier</h2>
+            <p style="margin-top:14px">Weblier is a focused digital studio helping Indian businesses grow online
+                with clarity,
+                simplicity,
+                and professional-grade execution. </p>
+        </div>
+    </section>
+
+
+    <!-- CONTACT -->
+    <section id="contact" class="section">
+        <div class="container glass contact">
+            <div>
+                <h2>Let’s Build Your Website</h2>
+                <p style="margin-top:10px">Share a few details and we’ll guide you with the right solution. </p>
+            </div>
+            <form id="contactForm">
+                <input type="text" id="inputName" placeholder="Your Name" required />
+                <input type="tel" id="inputPhone" placeholder="Phone Number" required />
+                <textarea placeholder="Tell us about your business" id="inputTextArea"></textarea>
+                <button type="submit" class="btn btn-primary" id="formSubmitBtn">Submit</button>
+            </form>
+        </div>
+    </section>
+
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                <a href="#">
+                    <img src="logo-footer.png" class="footer-logo-img" alt="Weblier" width="180">
+                </a>
+                <p>Professional websites and digital setup for Indian businesses who want clarity,
+                    trust,
+                    and long-term value. </p>
+                </div>
+                <div class="footer-links">
+                    <h4>Services</h4>
+                    <a href="#services">Business Websites</a>
+                    <a href="#services">Branding Essentials</a>
+                    <a href="#services">Google Business Setup</a>
+                </div>
+                <div class="footer-links">
+                    <h4>Company</h4>
+                    <a href="#projects">Projects</a>
+                    <a href="#demos">Demos</a>
+                    <a href="#contact">Contact</a>
+                </div>
+                <div class="footer-links">
+                    <h4>Contact</h4>
+                    <a href="#projects"><i class="fa-solid fa-phone"></i> +91 98780 65653</a>
+                    <a href="#demos"><i class="fa-brands fa-whatsapp cstmWPfa"></i> +91 98780 6565*</a>
+                    <a href="#contact"><i class="fa-solid fa-envelope"></i> weblier@gmail.com</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>© 2026 Weblier. All rights reserved.</span>
+                <span class="social-links">
+                    <a href="#" class="social-link" target="_blank"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" class="social-link" target="_blank"><i class="fa-brands fa-x-twitter"></i></a>
+                    <a href="#" class="social-link" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" class="social-link" target="_blank"><i class="fa-brands fa-pinterest-p"></i></a>
+                </span>
+                <span>Designed fortrust • Built for growth</span>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- FLOATING CTA -->
+    <div class="floating-cta">
+        <a href="#contact" onclick="openModal(this)" aria-label="Contact" data-heading="WhatsApp" data-contentid="wpmodal">
+            <i class="fa-brands fa-whatsapp drwp-icon"></i>
+        </a>
+        <div class="modal-content-hidden">
+            <div id="wpmodal">
+                <p style="text-align:center;">Ready to get your quote on WhatsApp?</p>
+                <div class="confirm-buttons">
+                    <a href="#" target="_blank" class="btn btn-success">
+                        Continue to WhatsApp
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- MODAL -->
+    <div class="modal" id="modal">
+        <div class="modal-content glass"><button class="modal-close" onclick="closeModal()">✕</button>
+            <h3 id="modalHeading"></h3>
+            <div id="modal-body">
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- SCRIPT -->
+    <script>
+        const header = document.getElementById("header");
+        const modal = document.getElementById("modal");
+
+        window.addEventListener("scroll", () => {
+            header.classList.toggle("scrolled", window.scrollY > 24);
+        });
+
+
+        function openModal(el) {
+            const innerDiv = document.getElementById("modal-body");
+            const modalHeading = document.getElementById("modalHeading");
+
+            innerDiv.innerHTML = "";
+            modalHeading.innerHTML = "";
+
+            modalHeading.textContent = el.dataset.heading;
+
+            const contentSource = document.getElementById(el.dataset.contentid);
+            innerDiv.innerHTML = contentSource.innerHTML;
+
+            modal.classList.add("active");
+        }
+
+        function closeModal() {
+            modal.classList.remove("active");
+        }
+
+        modal.addEventListener("click", (e) => {
+            if (e.target === modal) closeModal();
+        });
+
+        //   toggle button
+        const themeToggle = document.getElementById("themeToggle");
+        const icon = themeToggle.querySelector("i");
+
+        // Default theme = light
+        const savedTheme = localStorage.getItem("theme");
+        if (savedTheme === "dark") {
+            document.body.setAttribute("data-theme", "dark");
+            icon.classList.replace("fa-moon", "fa-sun");
+        }
+
+        themeToggle.addEventListener("click", () => {
+            const isDark = document.body.getAttribute("data-theme") === "dark";
+
+            if (isDark) {
+                document.body.removeAttribute("data-theme");
+                localStorage.setItem("theme", "light");
+                icon.classList.replace("fa-sun", "fa-moon");
+            } else {
+                document.body.setAttribute("data-theme", "dark");
+                localStorage.setItem("theme", "dark");
+                icon.classList.replace("fa-moon", "fa-sun");
+            }
+        });
+    </script>
+
+</body>
+
+</html>
